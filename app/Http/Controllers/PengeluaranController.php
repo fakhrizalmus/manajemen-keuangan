@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
+use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 
-class KategoriController extends Controller
+class PengeluaranController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class KategoriController extends Controller
     public function index()
     {
         $kategori = Kategori::get();
-        return view('kategori.index', compact('kategori'));
+        return view('index', compact('kategori'));
     }
 
     /**
@@ -21,7 +22,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('kategori.add-kategori');
+        //
     }
 
     /**
@@ -29,20 +30,13 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $this->validate($request, [
-            'nama_kategori' => ['required']
-        ]);
-        $data = [
-            'nama_kategori' => $validatedData['nama_kategori']
-        ];
-        Kategori::create($data);
-        return redirect('/kategori')->with('success', 'Berhasil Disimpan');
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Kategori $kategori)
+    public function show(Pengeluaran $pengeluaran)
     {
         //
     }
@@ -50,7 +44,7 @@ class KategoriController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kategori $kategori)
+    public function edit(Pengeluaran $pengeluaran)
     {
         //
     }
@@ -58,7 +52,7 @@ class KategoriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, Pengeluaran $pengeluaran)
     {
         //
     }
@@ -66,9 +60,8 @@ class KategoriController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kategori $kategori, $id)
+    public function destroy(Pengeluaran $pengeluaran)
     {
-        $kategori = Kategori::find($id)->delete();
-        return redirect('/kategori');
+        //
     }
 }

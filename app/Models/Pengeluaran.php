@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Kategori extends Model
+class Pengeluaran extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
 
     /**
-     * Get all of the comments for the Kategori
+     * Get the user that owns the Pengeluaran
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function pengeluarans()
+    public function kategoris()
     {
-        return $this->hasMany(Pengeluaran::class);
+        return $this->belongsTo(Kategori::class);
     }
 }

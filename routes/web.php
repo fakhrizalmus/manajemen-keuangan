@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PengeluaranController;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [PengeluaranController::class, 'index']);
+Route::group(['prefix' => 'kategori'], function () {
+    Route::get('/', [KategoriController::class, 'index'])->name('kategoris');
+    Route::get('/add-kategori', [KategoriController::class, 'create'])->name('add-kategori');
+    Route::post('/store-kategori', [KategoriController::class, 'store'])->name('store-kategori');
+    Route::delete('/delete-kategori/{id}', [KategoriController::class, 'destroy'])->name('delete-kategori');
 });
