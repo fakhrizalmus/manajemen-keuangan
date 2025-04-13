@@ -13,8 +13,8 @@ class PengeluaranController extends Controller
      */
     public function index()
     {
-        $kategori = Kategori::get();
-        return view('index', compact('kategori'));
+        $pengeluaran = Pengeluaran::with('kategoris')->orderBy('id', 'DESC')->get();
+        return view('pengeluaran.index', compact('pengeluaran'));
     }
 
     /**
@@ -22,7 +22,8 @@ class PengeluaranController extends Controller
      */
     public function create()
     {
-        //
+        $kategori = Kategori::get();
+        return view('pengeluaran.add-pengeluaran', compact('kategori'));
     }
 
     /**
@@ -30,7 +31,19 @@ class PengeluaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $this->validate($request, [
+            'kategori_id'   => ['required'],
+            'jumlah'        => ['required'],
+            'tanggal'       => ['required']
+        ]);
+        $data = [
+            'kategori_id'   => $validatedData['kategori_id'],
+            'jumlah'        => $validatedData['jumlah'],
+            'tanggal'       => $validatedData['tanggal'],
+            'keterangan'    => $request['keterangan']
+        ];
+        $save = Pengeluaran::create($data);
+        return redirect('/pengeluaran')->with('success');
     }
 
     /**
