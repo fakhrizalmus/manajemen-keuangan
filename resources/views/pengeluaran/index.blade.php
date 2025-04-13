@@ -41,6 +41,7 @@
                                         <th>Tanggal</th>
                                         <th>Jumlah</th>
                                         <th>Keterangan</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -57,17 +58,45 @@
                                             <td>{{ $item->tanggal }}</td>
                                             <td>{{ 'Rp' . number_format($item->jumlah, 0, ',', '.') }}</td>
                                             <td>{{ $item->keterangan == null ? '-' : $item->keterangan }}</td>
-                                            {{-- <td>
-                                                <form action="{{ route('delete-kategori', $item->id) }}" method="post"
-                                                    class="d-inline"
-                                                    onsubmit="return confirm('Yakin akan hapus data anda?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm" style="margin-bottom: 5px;"><i
-                                                            class="fa-solid fa-trash"></i></button>
-                                                </form>
-                                            </td> --}}
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#confirmDeleteModal{{ $item->id }}">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
+                                        <!-- Modal Konfirmasi Delete -->
+                                        <div class="modal fade" id="confirmDeleteModal{{ $item->id }}"
+                                            tabindex="-1" aria-labelledby="modalLabel{{ $item->id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content border-0 shadow">
+                                                    <div class="modal-header bg-danger text-white">
+                                                        <h5 class="modal-title" id="modalLabel{{ $item->id }}">
+                                                            Konfirmasi Hapus</h5>
+                                                        <button type="button" class="btn-close btn-close-white"
+                                                            data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <i
+                                                            class="fa-solid fa-triangle-exclamation fa-3x text-warning mb-3"></i>
+                                                        <p>Yakin ingin menghapus data ini?</p>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-center">
+                                                        <form action="{{ route('delete-pengeluaran', $item->id) }}"
+                                                            method="post" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Ya,
+                                                                Hapus</button>
+                                                        </form>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Batal</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>

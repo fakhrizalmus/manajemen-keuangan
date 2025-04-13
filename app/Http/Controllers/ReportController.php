@@ -28,6 +28,42 @@ class ReportController extends Controller
         }
         $data = $data->orderBy('p.tanggal');
         $data = $data->get();
+
+        $chart = DB::table('pengeluarans as p')
+            ->join('kategoris as k', 'k.id', '=', 'p.kategori_id')
+            ->selectRaw('
+                k.nama_kategori,
+                sum( p.jumlah ) AS jumlah')
+            ->groupBy('k.nama_kategori');
+        if (isset($request['start']) && isset($request['enddate'])) {
+            $chart = $chart->whereBetween('p.tanggal', [$start_date, $end_date]);
+        }
+        $chart = $chart->orderBy('p.tanggal');
+        $chart = $chart->get();
+
+        $labels = $chart->pluck('nama_kategori');
+        $values = $chart->pluck('jumlah');
+        return view('index', compact('data', 'chart', 'labels', 'values'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function chart(Request $request)
+    {
+        $start_date = $request['start_date'];
+        $end_date = $request['end_date'];
+        $data = DB::table('pengeluarans as p')
+            ->join('kategoris as k', 'k.id', '=', 'p.kategori_id')
+            ->selectRaw('
+                k.nama_kategori,
+                sum( p.jumlah ) AS jumlah')
+            ->groupBy('k.nama_kategori');
+        if (isset($request['start']) && isset($request['enddate'])) {
+            $data = $data->whereBetween('p.tanggal', [$start_date, $end_date]);
+        }
+        $data = $data->orderBy('p.tanggal');
+        $data = $data->get();
         return view('index', compact('data'));
     }
 

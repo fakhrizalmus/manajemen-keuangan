@@ -29,4 +29,5 @@ Route::group(['prefix' => 'pengeluaran'], function () {
     Route::get('/', [PengeluaranController::class, 'index'])->name('pengeluarans');
     Route::get('/add-pengeluaran', [PengeluaranController::class, 'create'])->name('add-pengeluaran');
     Route::post('/store-pengeluaran', [PengeluaranController::class, 'store'])->name('store-pengeluaran');
+    Route::delete('/delete-pengeluaran/{id}', [PengeluaranController::class, 'destroy'])->name('delete-pengeluaran');
 });

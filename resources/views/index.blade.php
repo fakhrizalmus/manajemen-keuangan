@@ -20,10 +20,31 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
-                    <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
+                    <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+                        <div>
+                            <h1 class="mb-0">Dashboard</h1>
+                            <small class="text-muted">Ringkasan data pengeluaran</small>
+                        </div>
+                        <div>
+                            @php
+                                $total = 0;
+                            @endphp
+                            @foreach ($chart as $item)
+                                @php
+                                    $total += $item->jumlah;
+                                @endphp
+                            @endforeach
+                            <div class="card text-white bg-success shadow-sm">
+                                <div class="card-body py-2 px-3 d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <small>Total Pengeluaran</small>
+                                        <h5 class="mb-0">{{ 'Rp' . number_format($total, 0, ',', '.') }}</h5>
+                                    </div>
+                                    <i class="fas fa-wallet fa-2x opacity-75 ms-3"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <form method="GET" action="{{ route('home') }}">
                         <div class="row g-3 align-items-end mb-4">
                             <div class="col-md-3">
@@ -97,7 +118,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $no = 0;
+                                        $no = 1;
                                     @endphp
                                     @foreach ($data as $item)
                                         <tr>
@@ -127,6 +148,12 @@
             </footer>
         </div>
     </div>
+    <script>
+        window.chartData = {
+            labels: @json($labels),
+            values: @json($values)
+        };
+    </script>
     @include('static.js')
 </body>
 

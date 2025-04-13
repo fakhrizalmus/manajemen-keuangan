@@ -73,8 +73,9 @@ class PengeluaranController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pengeluaran $pengeluaran)
+    public function destroy(Pengeluaran $pengeluaran, $id)
     {
-        //
+        Pengeluaran::find($id)->delete();
+        return redirect('/pengeluaran');
     }
 }
