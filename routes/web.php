@@ -20,14 +20,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ReportController::class, 'index'])->name('home');
 Route::group(['prefix' => 'kategori'], function () {
     Route::get('/', [KategoriController::class, 'index'])->name('kategoris');
-    Route::get('/add-kategori', [KategoriController::class, 'create'])->name('add-kategori');
     Route::post('/store-kategori', [KategoriController::class, 'store'])->name('store-kategori');
     Route::delete('/delete-kategori/{id}', [KategoriController::class, 'destroy'])->name('delete-kategori');
+    Route::put('/edit-kategori/{id}', [KategoriController::class, 'edit'])->name('edit-kategori');
 });
 
 Route::group(['prefix' => 'pengeluaran'], function () {
     Route::get('/', [PengeluaranController::class, 'index'])->name('pengeluarans');
-    Route::get('/add-pengeluaran', [PengeluaranController::class, 'create'])->name('add-pengeluaran');
     Route::post('/store-pengeluaran', [PengeluaranController::class, 'store'])->name('store-pengeluaran');
     Route::delete('/delete-pengeluaran/{id}', [PengeluaranController::class, 'destroy'])->name('delete-pengeluaran');
+    Route::put('/edit-pengeluaran/{id}', [PengeluaranController::class, 'edit'])->name('edit-pengeluaran');
 });

@@ -13,8 +13,9 @@ class PengeluaranController extends Controller
      */
     public function index()
     {
-        $pengeluaran = Pengeluaran::with('kategoris')->orderBy('id', 'DESC')->get();
-        return view('pengeluaran.index', compact('pengeluaran'));
+        $kategori = Kategori::get();
+        $pengeluaran = Pengeluaran::with('kategoris')->orderBy('tanggal', 'DESC')->get();
+        return view('pengeluaran.index', compact('pengeluaran', 'kategori'));
     }
 
     /**
@@ -22,8 +23,7 @@ class PengeluaranController extends Controller
      */
     public function create()
     {
-        $kategori = Kategori::get();
-        return view('pengeluaran.add-pengeluaran', compact('kategori'));
+        //
     }
 
     /**
@@ -43,7 +43,7 @@ class PengeluaranController extends Controller
             'keterangan'    => $request['keterangan']
         ];
         $save = Pengeluaran::create($data);
-        return redirect('/pengeluaran')->with('success');
+        return redirect('/pengeluaran')->with('success', 'Berhasil disimpan');
     }
 
     /**
@@ -57,9 +57,22 @@ class PengeluaranController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pengeluaran $pengeluaran)
+    public function edit($id, Request $request)
     {
-        //
+        $pengeluaran = Pengeluaran::find($id)->first();
+        $validatedData = $this->validate($request, [
+            'kategori_id'   => ['required'],
+            'jumlah'        => ['required'],
+            'tanggal'       => ['required']
+        ]);
+        $data = [
+            'kategori_id'   => $validatedData['kategori_id'],
+            'jumlah'        => $validatedData['jumlah'],
+            'tanggal'       => $validatedData['tanggal'],
+            'keterangan'    => $request['keterangan']
+        ];
+        $save = Pengeluaran::where('id', $id)->update($data);
+        return redirect()->back()->with('success', 'Berhasil edit!');
     }
 
     /**
@@ -76,6 +89,6 @@ class PengeluaranController extends Controller
     public function destroy(Pengeluaran $pengeluaran, $id)
     {
         Pengeluaran::find($id)->delete();
-        return redirect('/pengeluaran');
+        return redirect('/pengeluaran')->with('success', 'Berhasil dihapus');
     }
 }

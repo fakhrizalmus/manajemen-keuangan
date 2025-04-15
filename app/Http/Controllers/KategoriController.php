@@ -12,7 +12,7 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategori = Kategori::get();
+        $kategori = Kategori::orderBy('id', 'desc')->get();
         return view('kategori.index', compact('kategori'));
     }
 
@@ -21,7 +21,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('kategori.add-kategori');
+        //
     }
 
     /**
@@ -50,9 +50,16 @@ class KategoriController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kategori $kategori)
+    public function edit(Request $request, $id)
     {
-        //
+        $validatedData = $this->validate($request, [
+            'nama_kategori' => ['required']
+        ]);
+        $data = [
+            'nama_kategori' => $validatedData['nama_kategori']
+        ];
+        $save = Kategori::where('id', $id)->update($data);
+        return redirect()->back()->with('success', 'Berhasil edit!');
     }
 
     /**
@@ -69,6 +76,6 @@ class KategoriController extends Controller
     public function destroy(Kategori $kategori, $id)
     {
         $kategori = Kategori::find($id)->delete();
-        return redirect('/kategori');
+        return redirect('/kategori')->with('success', 'Berhasil Hapus');
     }
 }
