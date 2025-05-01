@@ -22,17 +22,66 @@
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item active">Pengeluaran</li>
                     </ol>
+                    <form method="GET" action="{{ route('pengeluarans') }}">
+                        <div class="row g-3 align-items-end mb-4">
+                            <div class="col-md-3">
+                                <label for="start_date" class="form-label">Dari Tanggal</label>
+                                <input type="date" class="form-control @error('start_date') is-invalid @enderror"
+                                    name="start_date" id="start_date"
+                                    value="{{ request('start_date') ?? date('Y-m-01') }}">
+                                @error('start_date')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="end_date" class="form-label">Sampai Tanggal</label>
+                                <input type="date" class="form-control @error('end_date') is-invalid @enderror"
+                                    name="end_date" id="end_date" value="{{ request('end_date') ?? date('Y-m-d') }}">
+                                @error('end_date')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
                         data-bs-target="#modalTambahPengeluaran">
                         Tambah
                     </button>
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            Laporan
-                        </div>
+                        <form method="GET" action="{{ route('pengeluarans') }}">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-table me-1"></i>
+                                    Laporan
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <label for="per_page" class="form-label mb-0 me-2">Tampilkan</label>
+                                    <select name="per_page" id="per_page" class="form-select form-select-sm w-auto"
+                                        onchange="this.form.submit()">
+                                        @foreach ([5, 10, 25, 50, 100] as $limit)
+                                            <option value="{{ $limit }}"
+                                                {{ request('per_page', 10) == $limit ? 'selected' : '' }}>
+                                                {{ $limit }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="ms-2">data</span>
+                                </div>
+                            </div>
+                        </form>
                         <div class="card-body">
-                            <table id="datatablesSimple">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Nomor</th>
@@ -47,12 +96,12 @@
                                     @php
                                         $no = 0;
                                     @endphp
-                                    @foreach ($pengeluaran as $item)
+                                    @foreach ($pengeluaran as $index => $item)
                                         @php
                                             $no++;
                                         @endphp
                                         <tr>
-                                            <td>{{ $no }}</td>
+                                            <td>{{ $pengeluaran->firstItem() + $index }}</td>
                                             <td>{{ $item->kategoris->nama_kategori }}</td>
                                             <td>{{ $item->tanggal }}</td>
                                             <td>{{ 'Rp' . number_format($item->jumlah, 0, ',', '.') }}</td>
@@ -121,13 +170,15 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="mb-3">
-                                                                <label for="tanggal" class="form-label">Tanggal</label>
+                                                                <label for="tanggal"
+                                                                    class="form-label">Tanggal</label>
                                                                 <input type="date"
                                                                     class="form-control @error('tanggal') is-invalid @enderror"
                                                                     name="tanggal" id="tanggal"
                                                                     value="{{ $item->tanggal }}">
                                                                 @error('tanggal')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                    <div class="invalid-feedback">{{ $message }}
+                                                                    </div>
                                                                 @enderror
                                                             </div>
                                                             <div class="mb-3">
@@ -146,7 +197,8 @@
                                                                     @endforeach
                                                                 </select>
                                                                 @error('kategori_id')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                    <div class="invalid-feedback">{{ $message }}
+                                                                    </div>
                                                                 @enderror
                                                             </div>
                                                             <div class="mb-3 row">
@@ -195,6 +247,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <!-- Pagination -->
+                            <div class="d-flex justify-content-center mt-3">
+                                {{ $pengeluaran->links('pagination::bootstrap-5') }}
+                            </div>
                         </div>
                     </div>
                 </div>

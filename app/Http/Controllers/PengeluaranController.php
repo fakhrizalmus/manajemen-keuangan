@@ -11,10 +11,17 @@ class PengeluaranController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = Kategori::get();
-        $pengeluaran = Pengeluaran::with('kategoris')->orderBy('tanggal', 'DESC')->get();
+        $perPage = $request->per_page ?? 10;
+        $start_date = $request['start_date'];
+        $end_date = $request['end_date'];
+        $kategori = Kategori::where('user_id', auth()->user()->id)->get();
+        $pengeluaran = Pengeluaran::with('kategoris')->where('user_id', auth()->user()->id);
+        if (isset($start_date) && isset($end_date)) {
+            $pengeluaran = $pengeluaran->whereBetween('tanggal', [$start_date, $end_date]);
+        }
+        $pengeluaran = $pengeluaran->orderBy('tanggal', 'DESC')->paginate($perPage)->appends($request->all());
         return view('pengeluaran.index', compact('pengeluaran', 'kategori'));
     }
 

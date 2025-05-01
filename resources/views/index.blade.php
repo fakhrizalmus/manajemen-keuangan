@@ -80,7 +80,7 @@
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-bar me-1"></i>
-                                    Bar Chart Example
+                                    Bar Chart
                                 </div>
                                 <div class="card-body"><canvas id="myBarChart" width="90%" height="40"></canvas>
                                 </div>
@@ -90,7 +90,7 @@
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-pie me-1"></i>
-                                    Pie Chart Example
+                                    Pie Chart
                                 </div>
                                 <div class="card-body"><canvas id="myPieChart" width="90%" height="30"></canvas>
                                 </div>

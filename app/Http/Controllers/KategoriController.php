@@ -12,7 +12,7 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategori = Kategori::orderBy('id', 'desc')->get();
+        $kategori = Kategori::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
         return view('kategori.index', compact('kategori'));
     }
 
@@ -33,7 +33,8 @@ class KategoriController extends Controller
             'nama_kategori' => ['required']
         ]);
         $data = [
-            'nama_kategori' => $validatedData['nama_kategori']
+            'nama_kategori' => $validatedData['nama_kategori'],
+            'user_id' => auth()->user()->id
         ];
         Kategori::create($data);
         return redirect('/kategori')->with('success', 'Berhasil Disimpan');
