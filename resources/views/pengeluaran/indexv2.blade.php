@@ -293,15 +293,10 @@
                                     </tbody>
                                 </table>
                                 <!-- Pagination and Limit -->
-                                <div class="d-flex ps-3 justify-content-start align-items-center mt-3">
-                                    <!-- Pagination -->
-                                    <div>
-                                        {{ $pengeluaran->links('pagination::bootstrap-5') }}
-                                    </div>
-
+                                <div class="d-flex flex-wrap justify-content-end align-items-center mt-3 pe-3">
                                     <!-- Limit Form -->
                                     <form method="GET" action="{{ request()->url() }}"
-                                        class="d-flex align-items-center gap-2 mb-0 ms-auto">
+                                        class="d-flex align-items-center gap-2 mb-0 flex-wrap">
                                         <label for="limit" class="mb-0">Tampilkan:</label>
                                         <select name="limit" id="limit"
                                             class="form-select form-select-sm w-auto" onchange="this.form.submit()">
@@ -312,7 +307,6 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        <span class="text-muted">data per halaman</span>
 
                                         {{-- Hidden inputs for start_date and end_date --}}
                                         @if (request('start_date'))
@@ -323,6 +317,11 @@
                                             <input type="hidden" name="end_date" value="{{ request('end_date') }}">
                                         @endif
                                     </form>
+
+                                    <!-- Pagination -->
+                                    <div class="me-3 ps-3 mt-2 mt-sm-0">
+                                        {{ $pengeluaran->links('pagination::bootstrap-5') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
