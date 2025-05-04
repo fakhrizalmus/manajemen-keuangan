@@ -46,6 +46,11 @@ class ReportController extends Controller
         return view('index', compact('data', 'chart', 'labels', 'values'));
     }
 
+    public function indexv2()
+    {
+        return view('dashboard');
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -27,6 +27,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/v2', [ReportController::class, 'indexv2'])->name('homev2');
     Route::get('/', [ReportController::class, 'index'])->name('home');
     Route::group(['prefix' => 'kategori'], function () {
         Route::get('/', [KategoriController::class, 'index'])->name('kategoris');
