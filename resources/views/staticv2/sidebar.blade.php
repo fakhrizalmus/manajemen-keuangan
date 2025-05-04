@@ -14,21 +14,25 @@
     <div class="collapse navbar-collapse" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active bg-gradient-dark text-white" href="../pages/dashboard.html">
+                <a class="nav-link {{ request()->routeIs('homev2') ? 'active bg-gradient-warning text-white' : 'active bg-gradient-dark text-white' }}"
+                    href="{{ route('homev2') }}">
                     <i class="material-symbols-rounded opacity-5">dashboard</i>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-dark" href="#" id="dropdownMenuLink"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="material-symbols-rounded opacity-5">menu</i>
-                    <span class="nav-link-text ms-1">Master</span>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('kategoris') ? 'active bg-gradient-warning text-white' : 'active bg-gradient-dark text-white' }}"
+                    href="{{ route('kategoris') }}">
+                    <i class="material-symbols-rounded opacity-5">category</i>
+                    <span class="nav-link-text ms-1">Kategori</span>
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="{{ route('kategoris') }}">Kategori</a></li>
-                    <li><a class="dropdown-item" href="{{ route('pengeluarans') }}">Pengeluaran</a></li>
-                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('pengeluarans') ? 'active bg-gradient-warning text-white' : 'active bg-gradient-dark text-white' }}"
+                    href="{{ route('pengeluarans') }}">
+                    <i class="material-symbols-rounded opacity-5">money_off</i>
+                    <span class="nav-link-text ms-1">Pengeluaran</span>
+                </a>
             </li>
         </ul>
     </div>

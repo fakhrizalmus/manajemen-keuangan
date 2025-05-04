@@ -13,7 +13,7 @@ class KategoriController extends Controller
     public function index()
     {
         $kategori = Kategori::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
-        return view('kategori.index', compact('kategori'));
+        return view('kategori.indexv2', compact('kategori'));
     }
 
     /**

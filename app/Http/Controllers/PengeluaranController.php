@@ -13,7 +13,7 @@ class PengeluaranController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->per_page ?? 10;
+        $perPage = $request->limit ?? 10;
         $start_date = $request['start_date'];
         $end_date = $request['end_date'];
         $kategori = Kategori::where('user_id', auth()->user()->id)->get();
@@ -22,7 +22,7 @@ class PengeluaranController extends Controller
             $pengeluaran = $pengeluaran->whereBetween('tanggal', [$start_date, $end_date]);
         }
         $pengeluaran = $pengeluaran->orderBy('tanggal', 'DESC')->paginate($perPage)->appends($request->all());
-        return view('pengeluaran.index', compact('pengeluaran', 'kategori'));
+        return view('pengeluaran.indexv2', compact('pengeluaran', 'kategori'));
     }
 
     /**
@@ -47,7 +47,8 @@ class PengeluaranController extends Controller
             'kategori_id'   => $validatedData['kategori_id'],
             'jumlah'        => $validatedData['jumlah'],
             'tanggal'       => $validatedData['tanggal'],
-            'keterangan'    => $request['keterangan']
+            'keterangan'    => $request['keterangan'],
+            'user_id'       => auth()->user()->id
         ];
         $save = Pengeluaran::create($data);
         return redirect('/pengeluaran')->with('success', 'Berhasil disimpan');
