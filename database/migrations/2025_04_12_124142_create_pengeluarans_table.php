@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('pengeluarans', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
+            $table->bigInteger('kategori_id');
+            $table->longText('keterangan')->nullable();
             $table->date('tanggal');
             $table->integer('jumlah')->default(0);
-            $table->bigInteger('kategori_id');
             $table->timestamps();
             $table->softDeletes();
         });

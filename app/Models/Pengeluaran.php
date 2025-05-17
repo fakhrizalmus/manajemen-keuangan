@@ -18,6 +18,6 @@ class Pengeluaran extends Model
      */
     public function kategoris()
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
+        return $this->belongsTo(KategoriPengeluaran::class, 'kategori_id');
     }
 }

@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     public function loginIndex()
     {
-        return view('auth.sign-in');
+        return view('auth.loginv2');
     }
 
     public function login(Request $request)
@@ -22,14 +22,14 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
-            return redirect()->route('homev2');
+            return redirect()->route('home');
         }
         return back()->withInput()->with('error', 'Email atau password salah!');
     }
 
     public function registerIndex()
     {
-        return view('auth.register');
+        return view('auth.registerv2');
     }
 
     public function register(Request $request)

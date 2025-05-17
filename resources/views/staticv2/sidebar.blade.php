@@ -1,39 +1,138 @@
-<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2"
-    id="sidenav-main">
-    <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-            aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand px-4 py-3 m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
-            target="_blank">
-            <img src="../adminv2/assets/img/logo-ct-dark.png" class="navbar-brand-img" width="26" height="26"
-                alt="main_logo">
-            <span class="ms-1 text-sm text-dark">Creative Tim</span>
-        </a>
+<nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+        <div class="m-header">
+            <a href="{{ route('home') }}" class="b-brand text-primary">
+                <!-- ========   Change your logo from here   ============ -->
+                <img src="../assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
+            </a>
+        </div>
+        <div class="navbar-content">
+            <ul class="pc-navbar">
+                <li class="pc-item">
+                    <a href="{{ route('home') }}" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+                        <span class="pc-mtext">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="pc-item pc-caption">
+                    <label>Master</label>
+                    <i class="ti ti-dashboard"></i>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
+                            class="pc-mtext">Pengeluaran</span><span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item">
+                            <a href="{{ route('kategori_pengeluarans') }}" class="pc-link">
+                                <span class="pc-micon"><i class="ti ti-list"></i></span>
+                                <span class="pc-mtext">Kategori</span>
+                            </a>
+                        </li>
+                        <li class="pc-item">
+                            <a href="{{ route('pengeluarans') }}" class="pc-link">
+                                <span class="pc-micon"><i class="ti ti-credit-card-off"></i></span>
+                                <span class="pc-mtext">Pengeluaran</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
+                            class="pc-mtext">Pemasukan</span><span class="pc-arrow"><i
+                                data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item">
+                            <a href="{{ route('kategori_pemasukans') }}" class="pc-link">
+                                <span class="pc-micon"><i class="ti ti-list"></i></span>
+                                <span class="pc-mtext">Kategori</span>
+                            </a>
+                        </li>
+                        <li class="pc-item">
+                            <a href="{{ route('pemasukans') }}" class="pc-link">
+                                <span class="pc-micon"><i class="ti ti-credit-card"></i></span>
+                                <span class="pc-mtext">Pemasukan</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- <li class="pc-item">
+                    <a href="../elements/icon-tabler.html" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-plant-2"></i></span>
+                        <span class="pc-mtext">Icons</span>
+                    </a>
+                </li>
+
+                <li class="pc-item pc-caption">
+                    <label>Pages</label>
+                    <i class="ti ti-news"></i>
+                </li>
+                <li class="pc-item">
+                    <a href="../pages/login.html" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-lock"></i></span>
+                        <span class="pc-mtext">Login</span>
+                    </a>
+                </li>
+                <li class="pc-item">
+                    <a href="../pages/register.html" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
+                        <span class="pc-mtext">Register</span>
+                    </a>
+                </li>
+
+                <li class="pc-item pc-caption">
+                    <label>Other</label>
+                    <i class="ti ti-brand-chrome"></i>
+                </li> --}}
+                {{-- <li class="pc-item pc-hasmenu">
+                    <a href="#!" class="pc-link"><span class="pc-micon"><i class="ti ti-menu"></i></span><span
+                            class="pc-mtext">Menu
+                            levels</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                    <ul class="pc-submenu">
+                        <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
+                        <li class="pc-item pc-hasmenu">
+                            <a href="#!" class="pc-link">Level 2.2<span class="pc-arrow"><i
+                                        data-feather="chevron-right"></i></span></a>
+                            <ul class="pc-submenu">
+                                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                                <li class="pc-item pc-hasmenu">
+                                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
+                                                data-feather="chevron-right"></i></span></a>
+                                    <ul class="pc-submenu">
+                                        <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                                        <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="pc-item pc-hasmenu">
+                            <a href="#!" class="pc-link">Level 2.3<span class="pc-arrow"><i
+                                        data-feather="chevron-right"></i></span></a>
+                            <ul class="pc-submenu">
+                                <li class="pc-item"><a class="pc-link" href="#!">Level 3.1</a></li>
+                                <li class="pc-item"><a class="pc-link" href="#!">Level 3.2</a></li>
+                                <li class="pc-item pc-hasmenu">
+                                    <a href="#!" class="pc-link">Level 3.3<span class="pc-arrow"><i
+                                                data-feather="chevron-right"></i></span></a>
+                                    <ul class="pc-submenu">
+                                        <li class="pc-item"><a class="pc-link" href="#!">Level 4.1</a></li>
+                                        <li class="pc-item"><a class="pc-link" href="#!">Level 4.2</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pc-item">
+                    <a href="../other/sample-page.html" class="pc-link">
+                        <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+                        <span class="pc-mtext">Sample page</span>
+                    </a>
+                </li> --}}
+            </ul>
+        </div>
     </div>
-    <hr class="horizontal dark mt-0 mb-2">
-    <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('homev2') ? 'active bg-gradient-warning text-white' : 'active bg-gradient-dark text-white' }}"
-                    href="{{ route('homev2') }}">
-                    <i class="material-symbols-rounded opacity-5">dashboard</i>
-                    <span class="nav-link-text ms-1">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('kategoris') ? 'active bg-gradient-warning text-white' : 'active bg-gradient-dark text-white' }}"
-                    href="{{ route('kategoris') }}">
-                    <i class="material-symbols-rounded opacity-5">category</i>
-                    <span class="nav-link-text ms-1">Kategori</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('pengeluarans') ? 'active bg-gradient-warning text-white' : 'active bg-gradient-dark text-white' }}"
-                    href="{{ route('pengeluarans') }}">
-                    <i class="material-symbols-rounded opacity-5">money_off</i>
-                    <span class="nav-link-text ms-1">Pengeluaran</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</aside>
+</nav>

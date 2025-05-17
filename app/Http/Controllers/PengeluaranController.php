@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
+use App\Models\KategoriPengeluaran;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 
@@ -14,15 +15,21 @@ class PengeluaranController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->limit ?? 10;
-        $start_date = $request['start_date'];
-        $end_date = $request['end_date'];
-        $kategori = Kategori::where('user_id', auth()->user()->id)->get();
-        $pengeluaran = Pengeluaran::with('kategoris')->where('user_id', auth()->user()->id);
-        if (isset($start_date) && isset($end_date)) {
-            $pengeluaran = $pengeluaran->whereBetween('tanggal', [$start_date, $end_date]);
+        $start_date = $request['start_date'] ?? date('Y-m-01');
+        $end_date = $request['end_date'] ?? date('Y-m-d');
+        $search = $request->search;
+        $kategoriId = $request->kategori_id;
+        $kategori = KategoriPengeluaran::where('user_id', auth()->user()->id)->get();
+        $pengeluaran = Pengeluaran::with('kategoris')->where('user_id', auth()->user()->id)
+            ->whereBetween('tanggal', [$start_date, $end_date]);
+        if ($search) {
+            $pengeluaran = $pengeluaran->where('keterangan', 'like', '%' . $search . '%');
+        }
+        if ($kategoriId) {
+            $pengeluaran = $pengeluaran->where('kategori_id', '=', $kategoriId);
         }
         $pengeluaran = $pengeluaran->orderBy('tanggal', 'DESC')->paginate($perPage)->appends($request->all());
-        return view('pengeluaran.indexv2', compact('pengeluaran', 'kategori'));
+        return view('pengeluaran.indexv2-new', compact('pengeluaran', 'kategori'));
     }
 
     /**
@@ -51,7 +58,7 @@ class PengeluaranController extends Controller
             'user_id'       => auth()->user()->id
         ];
         $save = Pengeluaran::create($data);
-        return redirect('/pengeluaran')->with('success', 'Berhasil disimpan');
+        return redirect()->back()->with('success', 'Berhasil Simpan');
     }
 
     /**
@@ -80,7 +87,7 @@ class PengeluaranController extends Controller
             'keterangan'    => $request['keterangan']
         ];
         $save = Pengeluaran::where('id', $id)->update($data);
-        return redirect()->back()->with('success', 'Berhasil edit!');
+        return redirect()->back()->with('success', 'Berhasil Edit');
     }
 
     /**
@@ -97,6 +104,6 @@ class PengeluaranController extends Controller
     public function destroy(Pengeluaran $pengeluaran, $id)
     {
         Pengeluaran::find($id)->delete();
-        return redirect('/pengeluaran')->with('success', 'Berhasil dihapus');
+        return redirect()->back()->with('success', 'Berhasil Hapus');
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
+use App\Models\KategoriPemasukan;
+use App\Models\KategoriPengeluaran;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,41 +17,60 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $start_date = $request['start_date'];
-        $end_date = $request['end_date'];
-        $data = DB::table('pengeluarans as p')
-            ->join('kategoris as k', 'k.id', '=', 'p.kategori_id')
-            ->selectRaw('
-                k.nama_kategori,
-                p.tanggal,
-                sum( p.jumlah ) AS jumlah')
-            ->groupBy('k.nama_kategori', 'p.tanggal');
-        if (isset($request['start']) && isset($request['enddate'])) {
-            $data = $data->whereBetween('p.tanggal', [$start_date, $end_date]);
-        }
-        $data = $data->orderBy('p.tanggal');
-        $data = $data->get();
+        $start_date = $request['start_date'] ?? date('Y-m-01');;
+        $end_date = $request['end_date'] ?? date('Y-m-d');
+        $kategoriPengeluaranId = $request['kpg_id'];
+        $kategoriPemasukanId = $request['kpm_id'];
 
-        $chart = DB::table('pengeluarans as p')
-            ->join('kategoris as k', 'k.id', '=', 'p.kategori_id')
+        $pengeluaran = DB::table('pengeluarans as p')
+            ->join('kategori_pengeluarans as k', 'k.id', '=', 'p.kategori_id')
             ->selectRaw('
                 k.nama_kategori,
                 sum( p.jumlah ) AS jumlah')
+            ->where('p.deleted_at', null)
+            ->whereBetween('p.tanggal', [$start_date, $end_date])
             ->groupBy('k.nama_kategori');
-        if (isset($request['start']) && isset($request['enddate'])) {
-            $chart = $chart->whereBetween('p.tanggal', [$start_date, $end_date]);
+        $pengeluaran = $pengeluaran->orderBy('p.tanggal');
+
+        $pemasukan = DB::table('pemasukans as p')
+            ->join('kategori_pemasukans as k', 'k.id', '=', 'p.kategori_id')
+            ->selectRaw('
+                k.nama_kategori,
+                sum( p.jumlah ) AS jumlah')
+            ->where('p.deleted_at', null)
+            ->whereBetween('p.tanggal', [$start_date, $end_date])
+            ->groupBy('k.nama_kategori');
+        $pemasukan = $pemasukan->orderBy('p.tanggal');
+
+        if ($kategoriPengeluaranId) {
+            $pengeluaran = $pengeluaran->where('k.id', '=', $kategoriPengeluaranId);
         }
-        $chart = $chart->orderBy('p.tanggal');
-        $chart = $chart->get();
 
-        $labels = $chart->pluck('nama_kategori');
-        $values = $chart->pluck('jumlah');
-        return view('index', compact('data', 'chart', 'labels', 'values'));
-    }
+        if ($kategoriPemasukanId) {
+            $pemasukan = $pemasukan->where('k.id', '=', $kategoriPemasukanId);
+        }
 
-    public function indexv2()
-    {
-        return view('dashboard');
+        $pengeluaran = $pengeluaran->get();
+        $pemasukan = $pemasukan->get();
+
+        $labels = $pengeluaran->pluck('nama_kategori');
+        $values = $pengeluaran->pluck('jumlah');
+
+        $labelspemasukan = $pemasukan->pluck('nama_kategori');
+        $valuespemasukan = $pemasukan->pluck('jumlah');
+
+        $kategoriPengeluaran = KategoriPengeluaran::get();
+        $kategoriPemasukan = KategoriPemasukan::get();
+        return view('indexv2', compact(
+            'pengeluaran',
+            'labels',
+            'values',
+            'pemasukan',
+            'labelspemasukan',
+            'valuespemasukan',
+            'kategoriPengeluaran',
+            'kategoriPemasukan'
+        ));
     }
 
     /**
@@ -59,7 +81,7 @@ class ReportController extends Controller
         $start_date = $request['start_date'];
         $end_date = $request['end_date'];
         $data = DB::table('pengeluarans as p')
-            ->join('kategoris as k', 'k.id', '=', 'p.kategori_id')
+            ->join('kategori_pengeluarans as k', 'k.id', '=', 'p.kategori_id')
             ->selectRaw('
                 k.nama_kategori,
                 sum( p.jumlah ) AS jumlah')
