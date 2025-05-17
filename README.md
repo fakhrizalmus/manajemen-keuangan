@@ -1,5 +1,5 @@
-## CATATAN PENGELUARAN
-Expense recording application
+## MANAJEMEN KEUANGAN
+Financial recording application
 
 ### Required SDK
 - php version `8.2.5^`
